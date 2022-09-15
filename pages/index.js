@@ -1,26 +1,29 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import Header from "../components/header";
+import Upload from "../components/upload";
 
 export default function Home() {
   return (
-    <div className={styles.container}>
+    <div className="h-screen flex flex-col">
       <Head>
         <title>BEKC</title>
         <meta name="description" content="Ben's Enzyme Kinetics Calculator" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>Hello World!</div>
+      <Header></Header>
+      <Upload></Upload>
 
-      <footer className={styles.footer}>
+      {/* <footer className={styles.footer}>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://github.com/theraggedflygon"
           target="_blank"
           rel="noopener noreferrer"
         >
           Created by Ben Weiner
         </a>
-      </footer>
+      </footer> */}
     </div>
   );
 }
