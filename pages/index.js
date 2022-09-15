@@ -3,8 +3,11 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Header from "../components/header";
 import Upload from "../components/upload";
+import { useState } from "react";
 
 export default function Home() {
+  const [datasets, setDatasets] = useState([]);
+
   return (
     <div className="h-screen flex flex-col">
       <Head>
@@ -13,7 +16,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <Upload></Upload>
+      <Upload setDatasets={setDatasets}></Upload>
+      <h1 className="text-4xl text-blue-500 text-center">{datasets.length}</h1>
 
       {/* <footer className={styles.footer}>
         <a
