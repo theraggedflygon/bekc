@@ -1,7 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { read, utils } from "xlsx";
 
-const Upload = ({ setDatasets }) => {
+const Upload = ({ setDatasets, setModalShow }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!loaded) {
+      document.getElementById("file-input").value = null;
+    }
+  }, [loaded]);
+
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (file === undefined || file === null) {
@@ -33,17 +41,42 @@ const Upload = ({ setDatasets }) => {
         console.log(row);
         i++;
       }
+      setLoaded(true);
+      setModalShow(true);
     };
+  };
+
+  const clearFile = () => {
+    setLoaded(false);
   };
 
   return (
     <div className="flex-none m-5">
       <div className="text-xl font-bold">Load Your Data File</div>
-      <input
-        type="file"
-        className="file:rounded-md file:bg-blue-500 file:border-0 file:text-lg file:text-white"
-        onChange={(e) => handleFile(e)}
-      ></input>
+      <div className="align-middle">
+        <input
+          type="file"
+          id="file-input"
+          className="file:rounded-md file:bg-blue-500 file:p-1 file:border-0 file:text-lg file:text-white"
+          onChange={(e) => handleFile(e)}
+        ></input>
+        {loaded && (
+          <button
+            className="bg-red-500 p-2 text-white rounded"
+            onClick={() => clearFile()}
+          >
+            Clear File
+          </button>
+        )}
+        {loaded && (
+          <button
+            className="bg-green-500 ml-2 p-2 text-white rounded"
+            onClick={() => setModalShow(true)}
+          >
+            Set Headers
+          </button>
+        )}
+      </div>
     </div>
   );
 };

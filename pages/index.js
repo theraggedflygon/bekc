@@ -3,10 +3,12 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Header from "../components/header";
 import Upload from "../components/upload";
+import ColumnsModal from "../components/columsModal";
 import { useState } from "react";
 
 export default function Home() {
   const [datasets, setDatasets] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
 
   return (
     <div className="h-screen flex flex-col">
@@ -16,8 +18,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <Upload setDatasets={setDatasets}></Upload>
+      <Upload setDatasets={setDatasets} setModalShow={setModalShow}></Upload>
       <h1 className="text-4xl text-blue-500 text-center">{datasets.length}</h1>
+      {modalShow && (
+        <ColumnsModal datasets={datasets} setModalShow={setModalShow} />
+      )}
 
       {/* <footer className={styles.footer}>
         <a
