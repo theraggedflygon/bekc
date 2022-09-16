@@ -8,6 +8,7 @@ import { useState } from "react";
 
 export default function Home() {
   const [datasets, setDatasets] = useState([]);
+  const [headers, setHeaders] = useState([]);
   const [modalShow, setModalShow] = useState(false);
 
   return (
@@ -18,10 +19,14 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header></Header>
-      <Upload setDatasets={setDatasets} setModalShow={setModalShow}></Upload>
+      <Upload
+        setDatasets={setDatasets}
+        setHeaders={setHeaders}
+        setModalShow={setModalShow}
+      ></Upload>
       <h1 className="text-4xl text-blue-500 text-center">{datasets.length}</h1>
       {modalShow && (
-        <ColumnsModal datasets={datasets} setModalShow={setModalShow} />
+        <ColumnsModal headers={headers} setModalShow={setModalShow} />
       )}
 
       {/* <footer className={styles.footer}>
