@@ -113,7 +113,7 @@ const ColumnsModal = ({ headers, setModalShow }) => {
                   {headers.slice(3).map((colName, idx) => {
                     return (
                       <tr
-                        id={idx}
+                        key={idx}
                         className="border border-b-1 border-gray-200"
                       >
                         <td className="border border-l-1 pl-2 border-gray-200">
