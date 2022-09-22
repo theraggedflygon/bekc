@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { read, utils } from "xlsx";
 
-const Upload = ({ setDatasets, setHeaders, setModalShow }) => {
+const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Upload = ({ setDatasets, setHeaders, setModalShow }) => {
         i++;
       }
       const headers = rows[i].split(",").filter((x) => x != "");
-      const newDataset = new Array(headers.length).fill([]);
+      const newDataset = Array.from(new Array(headers.length), () => []);
       i++;
       while (i < rows.length) {
         const row = rows[i].split(",");
@@ -42,6 +42,7 @@ const Upload = ({ setDatasets, setHeaders, setModalShow }) => {
         }
         i++;
       }
+      console.log(newDataset);
       setDatasets(newDataset);
       setHeaders(headers);
       setLoaded(true);
@@ -52,6 +53,7 @@ const Upload = ({ setDatasets, setHeaders, setModalShow }) => {
   const clearFile = () => {
     setDatasets([]);
     setLoaded(false);
+    clearModal();
   };
 
   return (

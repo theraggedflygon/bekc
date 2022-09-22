@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const ColumnsModal = ({ headers, setModalShow }) => {
+const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
   const [settings, setSettings] = useState({ plotTemp: false, useTime: true });
   const [serialVals, setSerialVals] = useState({ start: 1000, factor: 2 });
   const [labels, setLabels] = useState([]);
@@ -13,9 +13,17 @@ const ColumnsModal = ({ headers, setModalShow }) => {
     } else {
       newLength = 0;
     }
-    setLabels(new Array(newLength).fill(""));
-    setControl(new Array(newLength).fill(false));
-    setSettings({ plotTemp: false, useTime: true });
+    if (modalData.labels.length === 0) {
+      setLabels(new Array(newLength).fill(""));
+    } else {
+      setLabels(modalData.labels);
+    }
+    if (modalData.control.length === 0) {
+      setControl(new Array(newLength).fill(false));
+    } else {
+      setControl(modalData.control);
+    }
+    setSettings(modalData.settings);
   }, [headers]);
 
   const handleControl = (i) => {
@@ -30,6 +38,7 @@ const ColumnsModal = ({ headers, setModalShow }) => {
   const handleClose = (e) => {
     if (e.target.id === "modal-background" || e.target.id === "modal-center") {
       setModalShow(false);
+      setModalData({ labels, control, settings });
     }
   };
 
