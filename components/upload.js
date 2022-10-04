@@ -42,7 +42,6 @@ const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
         }
         i++;
       }
-      console.log(newDataset);
       setDatasets(newDataset);
       setHeaders(headers);
       setLoaded(true);

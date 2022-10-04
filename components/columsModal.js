@@ -55,6 +55,7 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
       }
     }
     newLabels[i] = newValue;
+    console.log(newLabels);
     setLabels(newLabels);
   };
 
@@ -83,7 +84,6 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
 
   const applySerial = () => {
     const { start, factor } = serialVals;
-    console.log(start, factor);
     let current = start;
     const newLabels = [...labels];
     for (let i = 0; i < labels.length; i++) {
@@ -131,15 +131,15 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
                         <td className="text-center border border-r-1 border-gray-200">
                           <input
                             type="checkbox"
-                            value={control[idx]}
-                            onClick={() => handleControl(idx)}
+                            checked={control[idx] || false}
+                            onChange={() => handleControl(idx)}
                           ></input>
                         </td>
                         <td className="pr-1 pl-1 justify-right">
                           {!control[idx] ? (
                             <input
                               type="text"
-                              value={labels[idx]}
+                              value={labels[idx] === 0 ? 0 : labels[idx] || ""}
                               onChange={(e) => handleChange(e, idx)}
                               placeholder="Enter Concentration (μM)"
                               min="0"
@@ -148,7 +148,7 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
                           ) : (
                             <input
                               type="text"
-                              value={labels[idx]}
+                              value={labels[idx] || ""}
                               onChange={(e) => handleChange(e, idx)}
                               placeholder="Enter Control Label"
                               min="0"

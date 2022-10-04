@@ -25,8 +25,6 @@ export default function Home() {
     });
   };
 
-  console.log(modalData.labels);
-
   return (
     <div className="h-screen flex flex-col">
       <Head>
@@ -41,14 +39,14 @@ export default function Home() {
         setModalShow={setModalShow}
         clearModal={clearModal}
       ></Upload>
-      {modalData.labels.length > 0 && (
+      {modalData.labels.filter((l) => l !== "").length ===
+        datasets.length - 3 && (
         <Plot
           xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
           datasets={datasets.slice(3)}
           labels={modalData.labels}
         ></Plot>
       )}
-      <h1 className="text-4xl text-blue-500 text-center">{datasets.length}</h1>
       {modalShow && (
         <ColumnsModal
           headers={headers}
@@ -57,11 +55,6 @@ export default function Home() {
           setModalData={setModalData}
         />
       )}
-      <div className="text-blue-500 text-lg">
-        {modalData.labels.map((l) => (
-          <div>{l}</div>
-        ))}
-      </div>
 
       {/* <footer className={styles.footer}>
         <a
