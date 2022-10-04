@@ -55,7 +55,6 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
       }
     }
     newLabels[i] = newValue;
-    console.log(newLabels);
     setLabels(newLabels);
   };
 

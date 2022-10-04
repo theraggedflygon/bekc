@@ -40,6 +40,11 @@ const Plot = ({ datasets, xSeries, labels }) => {
       scales: {
         y: {
           type: "linear",
+          ticks: {
+            callback: function (val, index) {
+              return `${this.getLabelForValue(Number(val))}`;
+            },
+          },
         },
       },
     };
