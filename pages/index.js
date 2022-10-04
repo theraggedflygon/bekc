@@ -3,6 +3,7 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Header from "../components/header";
 import Upload from "../components/upload";
+import Plot from "../components/plot";
 import ColumnsModal from "../components/columsModal";
 import { useEffect, useState } from "react";
 
@@ -24,9 +25,7 @@ export default function Home() {
     });
   };
 
-  useEffect(() => {
-    console.log(datasets);
-  }, [datasets]);
+  console.log(modalData.labels);
 
   return (
     <div className="h-screen flex flex-col">
@@ -42,6 +41,13 @@ export default function Home() {
         setModalShow={setModalShow}
         clearModal={clearModal}
       ></Upload>
+      {modalData.labels.length > 0 && (
+        <Plot
+          xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
+          datasets={datasets.slice(3)}
+          labels={modalData.labels}
+        ></Plot>
+      )}
       <h1 className="text-4xl text-blue-500 text-center">{datasets.length}</h1>
       {modalShow && (
         <ColumnsModal
