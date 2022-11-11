@@ -9,6 +9,7 @@ const lsErrorCalc = (yVals, yPreds) => {
   return errorSum;
 };
 
+// evaluates a specific logistic function for a series of values for the independent variable
 const evalLogistic = (L, k, x0, xVals) => {
   return xVals.map((x) => L / (1 + Math.pow(Math.E, -1 * k * (x - x0))));
 };
@@ -62,7 +63,7 @@ const fitLogistic = (xVals, yVals) => {
     LGuess += LStep * (Math.floor((minCombo % 100) / 10) - 1);
     x0Guess += x0Step * (Math.floor(minCombo % 10) - 1);
 
-    console.log(ctr, minDelta);
+    console.log(ctr, minDelta, minDelta + ls0);
 
     if (minDelta > threshold) {
       if (kStep === minStep && LStep === minStep && x0Step === minStep) break;
@@ -99,6 +100,7 @@ if (require.main === module) {
     45670, 45628, 45426,
   ];
   const coeffs = fitLogistic(xVals, yVals);
+  console.log(coeffs);
   // const yPreds = evalLogistic(10, 0.5, 10, xVals);
   // for (let i = 0; i < xVals.length; i++) {
   //   process.stdout.write(`(${xVals[i]}, ${yVals[i]}), `);

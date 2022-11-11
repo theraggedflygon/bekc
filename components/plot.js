@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
-const Plot = ({ datasets, xSeries, labels }) => {
+const Plot = ({ datasets, xSeries, labels, setColors = [] }) => {
   const [data, setData] = useState({ labels: [], datasets: [] });
   const [options, setOptions] = useState({});
   const colors = useMemo(
@@ -31,12 +31,19 @@ const Plot = ({ datasets, xSeries, labels }) => {
       newData.datasets.push({
         label: labels[i],
         data: datasets[i],
-        borderColor: colors[i % 10].replace("{$A}", 0.8),
-        backgroundColor: colors[i % 10].replace("{$A}", 0.5),
+        borderColor:
+          setColors.length > i
+            ? setColors[i].replace("{$A}", 0.8)
+            : colors[i % 10].replace("{$A}", 0.8),
+        backgroundColor:
+          setColors.length > i
+            ? setColors[i].replace("{$A}", 0.5)
+            : colors[i % 10].replace("{$A}", 0.5),
       });
     }
 
     const newOptions = {
+      maintainAspectRatio: false,
       scales: {
         y: {
           type: "linear",
