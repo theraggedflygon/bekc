@@ -2,25 +2,22 @@ import React, { useState, useEffect, useMemo } from "react";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 
+export const colors = [
+  "rgba(234, 16, 16, {$A})",
+  "rgba(68, 112, 214, {$A})",
+  "rgba(68, 214, 115, {$A})",
+  "rgba(226, 206, 53, {$A})",
+  "rgba(226, 152, 53, {$A})",
+  "rgba(53, 213, 226, {$A})",
+  "rgba(159, 53, 226, {$A})",
+  "rgba(34, 111, 22, {$A})",
+  "rgba(27, 21, 88, {$A})",
+  "rgba(88, 21, 21, {$A})",
+];
+
 const Plot = ({ datasets, xSeries, labels, setColors = [] }) => {
   const [data, setData] = useState({ labels: [], datasets: [] });
   const [options, setOptions] = useState({});
-  const colors = useMemo(
-    () => [
-      "rgba(234, 16, 16, {$A})",
-      "rgba(68, 112, 214, {$A})",
-      "rgba(68, 214, 115, {$A})",
-      "rgba(226, 206, 53, {$A})",
-      "rgba(226, 152, 53, {$A})",
-      "rgba(53, 213, 226, {$A})",
-      "rgba(159, 53, 226, {$A})",
-      "rgba(34, 111, 22, {$A})",
-      "rgba(27, 21, 88, {$A})",
-      "rgba(88, 21, 21, {$A})",
-    ],
-    []
-  );
-
   useEffect(() => {
     const newData = {
       labels: xSeries,

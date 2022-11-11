@@ -10,11 +10,11 @@ const lsErrorCalc = (yVals, yPreds) => {
 };
 
 // evaluates a specific logistic function for a series of values for the independent variable
-const evalLogistic = (L, k, x0, xVals) => {
+export const evalLogistic = (L, k, x0, xVals) => {
   return xVals.map((x) => L / (1 + Math.pow(Math.E, -1 * k * (x - x0))));
 };
 
-const fitLogistic = (xVals, yVals) => {
+export const fitLogistic = (xVals, yVals) => {
   let kStep = 0.1;
   let LStep = 10000;
   let x0Step = 10;
@@ -22,8 +22,8 @@ const fitLogistic = (xVals, yVals) => {
   let LGuess = 1000;
   let x0Guess = 0;
 
-  minStep = 0.0001;
-  threshold = -0.0001;
+  let minStep = 0.0001;
+  let threshold = -0.0001;
 
   let ctr = 1;
   while (true) {
@@ -63,10 +63,14 @@ const fitLogistic = (xVals, yVals) => {
     LGuess += LStep * (Math.floor((minCombo % 100) / 10) - 1);
     x0Guess += x0Step * (Math.floor(minCombo % 10) - 1);
 
-    console.log(ctr, minDelta, minDelta + ls0);
+    if (isNaN(minDelta)) break;
 
     if (minDelta > threshold) {
-      if (kStep === minStep && LStep === minStep && x0Step === minStep) break;
+      console.log(kStep, LStep, x0Step, minStep);
+      if (kStep === minStep && LStep === minStep && x0Step === minStep) {
+        console.log("Hello there!");
+        break;
+      }
       if (kStep > minStep) kStep /= 10;
       if (LStep > minStep) LStep /= 10;
       if (x0Step > minStep) x0Step /= 10;
