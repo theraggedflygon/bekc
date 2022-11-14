@@ -22,10 +22,9 @@ export const fitLogistic = (xVals, yVals) => {
   let LGuess = 1000;
   let x0Guess = 0;
 
-  let minStep = 0.0001;
+  let minSteps = { k: 0.0001, x0: 0.001, L: 10 };
   let threshold = -0.0001;
 
-  let ctr = 1;
   while (true) {
     const ls0 = lsErrorCalc(
       yVals,
@@ -34,19 +33,11 @@ export const fitLogistic = (xVals, yVals) => {
     const lsDeltas = new Array(27);
     const lsCombos = new Array(27);
     let i = 0;
-    for (
-      let ki = kGuess - kStep, kIdx = 0;
-      ki <= kGuess + kStep;
-      ki += kStep, kIdx++
-    ) {
-      for (
-        let Li = LGuess - LStep, LIdx = 0;
-        Li <= LGuess + LStep;
-        Li += LStep, LIdx++
-      ) {
+    for (let ki = kGuess - kStep, kIdx = 0; kIdx < 3; ki += kStep, kIdx++) {
+      for (let Li = LGuess - LStep, LIdx = 0; LIdx < 3; Li += LStep, LIdx++) {
         for (
           let x0i = x0Guess - x0Step, x0Idx = 0;
-          x0i <= x0Guess + x0Step;
+          x0Idx < 3;
           x0i += x0Step, x0Idx++
         ) {
           const lsTrial = lsErrorCalc(yVals, evalLogistic(Li, ki, x0i, xVals));
@@ -63,19 +54,18 @@ export const fitLogistic = (xVals, yVals) => {
     LGuess += LStep * (Math.floor((minCombo % 100) / 10) - 1);
     x0Guess += x0Step * (Math.floor(minCombo % 10) - 1);
 
-    if (isNaN(minDelta)) break;
-
     if (minDelta > threshold) {
-      console.log(kStep, LStep, x0Step, minStep);
-      if (kStep === minStep && LStep === minStep && x0Step === minStep) {
-        console.log("Hello there!");
+      if (
+        kStep === minSteps.k &&
+        LStep === minSteps.L &&
+        x0Step === minSteps.x0
+      ) {
         break;
       }
-      if (kStep > minStep) kStep /= 10;
-      if (LStep > minStep) LStep /= 10;
-      if (x0Step > minStep) x0Step /= 10;
+      if (kStep > minSteps.k) kStep /= 10;
+      if (LStep > minSteps.L) LStep /= 10;
+      if (x0Step > minSteps.x0) x0Step /= 10;
     }
-    ctr++;
   }
   return { k: kGuess, L: LGuess, x0: x0Guess };
 };
@@ -94,19 +84,17 @@ if (require.main === module) {
     600.617, 608.634, 616.637, 624.654, 632.659,
   ];
   const yVals = [
-    3100, 4550, 6074, 7892, 9637, 11422, 12974, 14368, 15970, 17541, 19409,
-    21115, 23052, 24698, 26197, 27635, 29225, 30663, 31808, 33344, 34584, 35477,
-    36630, 37889, 38376, 39593, 39812, 40531, 41055, 41611, 42063, 42362, 43230,
-    43197, 44056, 43790, 44306, 44602, 44722, 44771, 44635, 44898, 45134, 45135,
-    44794, 45136, 45192, 45560, 45760, 45629, 45884, 45634, 45948, 45545, 45368,
-    45270, 45391, 45628, 45641, 45581, 45566, 45504, 45448, 45637, 45445, 45508,
-    45326, 45711, 46041, 45764, 45876, 45681, 45355, 45448, 45567, 45614, 45711,
-    45670, 45628, 45426,
+    863, 797, 801, 822, 787, 791, 831, 816, 803, 814, 811, 748, 775, 771, 743,
+    752, 740, 739, 727, 716, 725, 726, 710, 682, 729, 688, 685, 693, 679, 681,
+    665, 656, 656, 664, 646, 662, 626, 641, 645, 644, 648, 636, 634, 607, 621,
+    604, 618, 617, 616, 618, 625, 624, 623, 597, 601, 590, 602, 609, 588, 579,
+    571, 593, 588, 584, 596, 576, 612, 577, 593, 584, 591, 564, 569, 593, 554,
+    557, 577, 549, 570, 568,
   ];
   const coeffs = fitLogistic(xVals, yVals);
   console.log(coeffs);
   // const yPreds = evalLogistic(10, 0.5, 10, xVals);
-  // for (let i = 0; i < xVals.length; i++) {
-  //   process.stdout.write(`(${xVals[i]}, ${yVals[i]}), `);
-  // }
+  for (let i = 0; i < xVals.length; i++) {
+    process.stdout.write(`(${xVals[i]}, ${yVals[i]}), `);
+  }
 }

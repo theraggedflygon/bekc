@@ -15,7 +15,14 @@ export const colors = [
   "rgba(88, 21, 21, {$A})",
 ];
 
-const Plot = ({ datasets, xSeries, labels, setColors = [] }) => {
+const Plot = ({
+  datasets,
+  xSeries,
+  labels,
+  setColors = [],
+  showPoints = [],
+  showLine = [],
+}) => {
   const [data, setData] = useState({ labels: [], datasets: [] });
   const [options, setOptions] = useState({});
   useEffect(() => {
@@ -27,15 +34,17 @@ const Plot = ({ datasets, xSeries, labels, setColors = [] }) => {
     for (let i = 0; i < datasets.length; i++) {
       newData.datasets.push({
         label: labels[i],
+        pointRadius: showPoints.length > 1 ? showPoints[i] : 1.0,
+        showLine: showLine.length > 1 ? showLine[i] : true,
         data: datasets[i],
         borderColor:
           setColors.length > i
-            ? setColors[i].replace("{$A}", 0.8)
-            : colors[i % 10].replace("{$A}", 0.8),
-        backgroundColor:
-          setColors.length > i
             ? setColors[i].replace("{$A}", 0.5)
             : colors[i % 10].replace("{$A}", 0.5),
+        backgroundColor:
+          setColors.length > i
+            ? setColors[i].replace("{$A}", 0.3)
+            : colors[i % 10].replace("{$A}", 0.3),
       });
     }
 

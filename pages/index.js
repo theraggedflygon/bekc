@@ -6,9 +6,11 @@ import Upload from "../components/upload";
 import ColumnsModal from "../components/columsModal";
 import { useEffect, useState, useMemo } from "react";
 import DataGraphs from "../components/dataGraphs";
+import { fitLogistic, evalLogistic } from "../scripts/curveFit";
 
 export default function Home() {
   const [datasets, setDatasets] = useState([]);
+  const [fits, setFits] = useState([]);
   const [headers, setHeaders] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [modalData, setModalData] = useState({
@@ -16,6 +18,20 @@ export default function Home() {
     control: [],
     settings: { plotTemp: false, useTime: true },
   });
+
+  useEffect(() => {
+    if (datasets.length > 3) {
+      console.log("We are actually doing this!");
+      const newFits = Array(datasets.length - 3);
+      const xVals = modalData.settings.useTime ? datasets[1] : datasets[0];
+      for (let i = 3; i < datasets.length; i++) {
+        const params = fitLogistic(xVals, datasets[i]);
+        const newVals = evalLogistic(params.L, params.k, params.x0, xVals);
+        newFits[i - 3] = newVals;
+      }
+      setFits(newFits);
+    }
+  }, [datasets, modalData.settings.useTime]);
 
   const clearModal = () => {
     setModalData({
@@ -39,7 +55,7 @@ export default function Home() {
         setModalShow={setModalShow}
         clearModal={clearModal}
       ></Upload>
-      <DataGraphs modalData={modalData} datasets={datasets} />
+      <DataGraphs modalData={modalData} datasets={datasets} fits={fits} />
       {modalShow && (
         <ColumnsModal
           headers={headers}

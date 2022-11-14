@@ -1,24 +1,31 @@
 import React, { useState } from "react";
 import Plot, { colors } from "./plot";
-import { fitLogistic, evalLogistic } from "../scripts/curveFit";
 
-const DataGraphs = ({ modalData, datasets }) => {
+const DataGraphs = ({ modalData, datasets, fits }) => {
   const generateGraphCol = (nCols, colNumber) => {
     return (
-      <div className="w-1/6 h-[12rem]">
+      <div className="w-1/6 h-[12rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
+          console.log(ds);
           if (idx % nCols === colNumber) {
-            // const fitParams = fitLogistic(
-            //   modalData.settings.useTime ? datasets[1] : datasets[0],
-            //   ds
-            // );
-            // console.log(fitParams, `FIT ${idx} IS DONE!`);
+            let dataset;
+            let labels;
+            const label = modalData.labels[idx];
+            if (idx < fits.length) {
+              dataset = [ds, fits[idx]];
+              labels = [label, `${label}-Best Fit`];
+            } else {
+              dataset = [ds];
+              labels = [label];
+            }
             return (
               <Plot
                 xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
-                datasets={[ds]}
-                labels={[modalData.labels[idx]]}
+                datasets={dataset}
+                labels={labels}
                 setColors={[colors[idx]]}
+                showPoints={[1, 0]}
+                showLine={[false, true]}
                 key={idx}
               ></Plot>
             );
