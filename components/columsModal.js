@@ -82,6 +82,7 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
   };
 
   const applySerial = () => {
+    console.log("Applying serial!", labels);
     const { start, factor } = serialVals;
     let current = start;
     const newLabels = [...labels];

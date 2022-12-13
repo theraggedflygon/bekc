@@ -21,7 +21,6 @@ export default function Home() {
 
   useEffect(() => {
     if (datasets.length > 3) {
-      console.log("We are actually doing this!");
       const newFits = Array(datasets.length - 3);
       const xVals = modalData.settings.useTime ? datasets[1] : datasets[0];
       for (let i = 3; i < datasets.length; i++) {
@@ -51,6 +50,7 @@ export default function Home() {
       <Header></Header>
       <Upload
         setDatasets={setDatasets}
+        headers={headers}
         setHeaders={setHeaders}
         setModalShow={setModalShow}
         clearModal={clearModal}
@@ -64,6 +64,7 @@ export default function Home() {
           setModalData={setModalData}
         />
       )}
+      <div>This is where the slope table will go!</div>
 
       {/* <footer className={styles.footer}>
         <a

@@ -6,7 +6,6 @@ const DataGraphs = ({ modalData, datasets, fits }) => {
     return (
       <div className="w-1/6 h-[12rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
-          console.log(ds);
           if (idx % nCols === colNumber) {
             let dataset;
             let labels;

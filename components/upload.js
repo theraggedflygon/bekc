@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { read, utils } from "xlsx";
+import Spinner from "./spinner";
 
-const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
+const Upload = ({
+  setDatasets,
+  headers,
+  setHeaders,
+  setModalShow,
+  clearModal,
+}) => {
   const [loaded, setLoaded] = useState(false);
+  const [waiting, setWaiting] = useState(false);
 
   useEffect(() => {
     if (!loaded) {
@@ -10,11 +18,20 @@ const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    if (headers.length > 0) {
+      setLoaded(true);
+      setWaiting(false);
+      setModalShow(true);
+    }
+  }, [headers]);
+
   const handleFile = (e) => {
     const file = e.target.files[0];
     if (file === undefined || file === null) {
       return;
     }
+    setWaiting(true);
     const reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = () => {
@@ -29,23 +46,21 @@ const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
         }
         i++;
       }
-      const headers = rows[i].split(",").filter((x) => x != "");
-      const newDataset = Array.from(new Array(headers.length), () => []);
+      const newHeaders = rows[i].split(",").filter((x) => x != "");
+      const newDataset = Array.from(new Array(newHeaders.length), () => []);
       i++;
       while (i < rows.length) {
         const row = rows[i].split(",");
         if (row[0] == "") {
           break;
         }
-        for (let j = 0; j < headers.length; j++) {
+        for (let j = 0; j < newHeaders.length; j++) {
           newDataset[j].push(Number.parseFloat(row[j]));
         }
         i++;
       }
       setDatasets(newDataset);
-      setHeaders(headers);
-      setLoaded(true);
-      setModalShow(true);
+      setHeaders(newHeaders);
     };
   };
 
@@ -65,6 +80,7 @@ const Upload = ({ setDatasets, setHeaders, setModalShow, clearModal }) => {
           className="file:rounded-md file:bg-blue-500 file:p-1 file:border-0 file:text-lg file:text-white"
           onChange={(e) => handleFile(e)}
         ></input>
+        {waiting && <Spinner />}
         {loaded && (
           <button
             className="bg-red-500 p-2 text-white rounded"
