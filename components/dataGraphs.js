@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Plot, { colors } from "./plot";
+import Slider from "./common/slider";
 
 const DataGraphs = ({ modalData, datasets, fits }) => {
   const generateGraphCol = (nCols, colNumber) => {
@@ -18,15 +19,20 @@ const DataGraphs = ({ modalData, datasets, fits }) => {
               labels = [label];
             }
             return (
-              <Plot
-                xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
-                datasets={dataset}
-                labels={labels}
-                setColors={[colors[idx]]}
-                showPoints={[1, 0]}
-                showLine={[false, true]}
-                key={idx}
-              ></Plot>
+              <div>
+                <Plot
+                  xSeries={
+                    modalData.settings.useTime ? datasets[1] : datasets[0]
+                  }
+                  datasets={dataset}
+                  labels={labels}
+                  setColors={[colors[idx]]}
+                  showPoints={[1, 0]}
+                  showLine={[false, true]}
+                  key={idx}
+                ></Plot>
+                <Slider min={0} max={100} val={50} key={`slider-${idx}`} />
+              </div>
             );
           }
         })}
