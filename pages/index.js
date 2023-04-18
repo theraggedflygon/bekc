@@ -25,7 +25,13 @@ export default function Home() {
       const xVals = modalData.settings.useTime ? datasets[1] : datasets[0];
       for (let i = 3; i < datasets.length; i++) {
         const params = fitLogistic(xVals, datasets[i]);
-        const newVals = evalLogistic(params.L, params.k, params.x0, xVals);
+        const newVals = evalLogistic(
+          params.L,
+          params.k,
+          params.x0,
+          params.D,
+          xVals
+        );
         newFits[i - 3] = newVals;
       }
       setFits(newFits);

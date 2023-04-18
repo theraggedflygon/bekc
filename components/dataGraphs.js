@@ -31,7 +31,7 @@ const DataGraphs = ({ modalData, datasets, fits }) => {
                   showLine={[false, true]}
                   key={idx}
                 ></Plot>
-                <Slider min={0} max={100} val={50} key={`slider-${idx}`} />
+                {/* <Slider min={0} max={100} val={50} key={`slider-${idx}`} /> */}
               </div>
             );
           }
