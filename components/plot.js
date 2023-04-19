@@ -63,7 +63,7 @@ const Plot = ({
     };
     setData(newData);
     setOptions(newOptions);
-  }, [datasets, colors, labels, xSeries]);
+  }, [datasets, colors, labels, xSeries, setColors]);
 
   return <Line data={data} options={options} />;
 };

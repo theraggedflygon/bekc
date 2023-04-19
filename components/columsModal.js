@@ -24,7 +24,7 @@ const ColumnsModal = ({ headers, setModalShow, modalData, setModalData }) => {
       setControl(modalData.control);
     }
     setSettings(modalData.settings);
-  }, [headers]);
+  }, [headers, modalData.control, modalData.labels, modalData.settings]);
 
   const handleControl = (i) => {
     const newControl = [...control];
