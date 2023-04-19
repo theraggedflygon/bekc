@@ -24,7 +24,7 @@ const Upload = ({
       setWaiting(false);
       setModalShow(true);
     }
-  }, [headers]);
+  }, [headers, setModalShow]);
 
   const handleFile = (e) => {
     const file = e.target.files[0];

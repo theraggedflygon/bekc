@@ -29,7 +29,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
               labels.push(`${label}-Slope`);
             }
             return (
-              <div>
+              <div key={`plot-${idx}`}>
                 <Plot
                   xSeries={
                     modalData.settings.useTime ? datasets[1] : datasets[0]

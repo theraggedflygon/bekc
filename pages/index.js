@@ -64,7 +64,7 @@ export default function Home() {
       maxSlopes.sort((s1, s2) => (s1.idx > s2.idx ? 1 : -1));
       setSlopes(maxSlopes);
     }
-  }, [datasets, modalData.settings.useTime]);
+  }, [datasets, modalData.settings.useTime, headers]);
 
   // updates labels on slope table
   useEffect(() => {

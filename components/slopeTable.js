@@ -11,15 +11,16 @@ const SlopeTable = ({ slopes }) => {
         </tr>
       </thead>
       <tbody>
-        {slopes.map((s) => {
+        {slopes.map((s, idx) => {
           let colorStr = "";
           if (isNaN(s.conc) || s.conc === 0) {
             colorStr = "lightGray";
           }
           return (
             <tr
+              key={`tr-${idx}`}
               className="text-center"
-              style={{ "background-color": colorStr }}
+              style={{ backgroundColor: colorStr }}
             >
               <td className="border border-black">{s.conc}</td>
               <td className="border border-black">{s.velo}</td>
