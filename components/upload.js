@@ -80,7 +80,7 @@ const Upload = ({
           className="file:rounded-md file:bg-blue-500 file:p-1 file:border-0 file:text-lg file:text-white"
           onChange={(e) => handleFile(e)}
         ></input>
-        {waiting && <Spinner />}
+        {waiting && <Spinner message={`Please wait. Your data is loading.`} />}
         {loaded && (
           <button
             className="bg-red-500 p-2 text-white rounded"

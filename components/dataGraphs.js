@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import Plot, { colors } from "./plot";
 import Slider from "./common/slider";
 
-const DataGraphs = ({ modalData, datasets, fits }) => {
+const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
   const generateGraphCol = (nCols, colNumber) => {
     return (
       <div className="w-1/6 h-[12rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
           if (idx % nCols === colNumber) {
+            console.log(idx, colNumber, nCols);
             let dataset;
             let labels;
             const label = modalData.labels[idx];
@@ -18,6 +19,15 @@ const DataGraphs = ({ modalData, datasets, fits }) => {
               dataset = [ds];
               labels = [label];
             }
+            if (slopes[idx].x && slopes[idx].y) {
+              dataset.push(
+                datasets[1].map(
+                  (ds) =>
+                    slopes[idx].y + slopes[idx].velo * (ds - slopes[idx].x)
+                )
+              );
+              labels.push(`${label}-Slope`);
+            }
             return (
               <div>
                 <Plot
@@ -26,9 +36,9 @@ const DataGraphs = ({ modalData, datasets, fits }) => {
                   }
                   datasets={dataset}
                   labels={labels}
-                  setColors={[colors[idx]]}
-                  showPoints={[1, 0]}
-                  showLine={[false, true]}
+                  setColors={[colors[idx], colors[1], colors[0]]}
+                  showPoints={[1, 0, 0]}
+                  showLine={[false, true, true]}
                   key={idx}
                 ></Plot>
                 {/* <Slider min={0} max={100} val={50} key={`slider-${idx}`} /> */}

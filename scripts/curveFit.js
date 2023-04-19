@@ -9,6 +9,22 @@ const lsErrorCalc = (yVals, yPreds) => {
   return errorSum;
 };
 
+export const getMaxSlope = (L, k, x0, D, xVals) => {
+  const yVals = evalLogistic(L, k, x0, D, xVals);
+  const midY = (L + D) / 2;
+  let midXIdx = 0;
+  let midX = null;
+  const factor = k < 0 ? -1 : 1;
+  while (midXIdx < xVals.length - 1 && yVals[midXIdx] * factor < midY) {
+    midXIdx++;
+  }
+  if (yVals[midXIdx - 1] < midY && yVals[midXIdx] > midY) {
+    midX = xVals[midXIdx];
+  }
+
+  return { slope: (L * k) / 4, ptX: midX, ptY: midY };
+};
+
 // evaluates a specific logistic function for a series of values for the independent variable
 export const evalLogistic = (L, k, x0, D, xVals) => {
   return xVals.map((x) => L / (1 + Math.pow(Math.E, -1 * k * (x - x0))) + D);
