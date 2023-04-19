@@ -1,4 +1,4 @@
-const Spinner = () => {
+const Spinner = ({ message }) => {
   return (
     <div className="text-center">
       <div className="w-full flex justify-center">
@@ -6,7 +6,7 @@ const Spinner = () => {
           <div className="h-12 w-12 rounded-full bg-white"></div>
         </div>
       </div>
-      <div>Please wait. Your data is loading.</div>
+      <div>{message}</div>
     </div>
   );
 };
