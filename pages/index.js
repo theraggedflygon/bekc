@@ -73,7 +73,7 @@ export default function Home() {
       newSlopes[i].conc = modalData.labels[i];
     }
     setSlopes(newSlopes);
-  }, [modalData.labels, slopes]);
+  }, [modalData.labels]);
 
   const clearModal = () => {
     setModalData({
