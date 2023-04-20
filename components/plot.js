@@ -23,6 +23,7 @@ const Plot = ({
   showPoints = [],
   showLine = [],
   useLogScale = false,
+  removeTicks = false,
 }) => {
   const [data, setData] = useState({ labels: [], datasets: [] });
   const [options, setOptions] = useState({});
@@ -51,6 +52,7 @@ const Plot = ({
     }
 
     const newOptions = {
+      responsive: true,
       maintainAspectRatio: false,
       scales: {
         y: {
@@ -59,6 +61,14 @@ const Plot = ({
             callback: function (val, index) {
               return `${this.getLabelForValue(Number(val))}`;
             },
+          },
+        },
+        x: {
+          ticks: {
+            display: !removeTicks,
+          },
+          grid: {
+            display: false,
           },
         },
       },

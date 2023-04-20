@@ -5,7 +5,7 @@ const SlopeTable = ({ slopes }) => {
     <table className="table-auto w-1/4 ml-5 mb-5 mr-5">
       <thead>
         <tr>
-          <th>Concentration (μM)</th>
+          <th>Inhibitor Concentration (μM)</th>
           <th>Max Velocity</th>
           <th>% Activity</th>
         </tr>

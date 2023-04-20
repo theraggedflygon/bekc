@@ -6,7 +6,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
   const [mainColors, setMainColors] = useState([]);
   const generateGraphCol = (nCols, colNumber) => {
     return (
-      <div className="w-1/6 h-[24rem]" key={`col-${colNumber}`}>
+      <div className="w-1/6 h-[39rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
           if (idx % nCols === colNumber) {
             let dataset;
@@ -29,7 +29,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
               labels.push(`${label}-Slope`);
             }
             return (
-              <div key={`plot-${idx}`}>
+              <div key={`plot-${idx}`} className="h-52">
                 <Plot
                   xSeries={
                     modalData.settings.useTime ? datasets[1] : datasets[0]
@@ -39,6 +39,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
                   setColors={[colors[idx], colors[1], colors[0]]}
                   showPoints={[1, 0, 0]}
                   showLine={[false, true, true]}
+                  removeTicks={true}
                   key={idx}
                 ></Plot>
                 {/* <Slider min={0} max={100} val={50} key={`slider-${idx}`} /> */}
@@ -53,7 +54,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
   return (
     modalData.labels.filter((l) => l !== "").length === datasets.length - 3 && (
       <div className="flex flex-row">
-        <div className="w-1/2 h-[36rem]">
+        <div className="w-1/2 h-[39rem]">
           {
             <Plot
               xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
