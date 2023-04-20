@@ -6,7 +6,7 @@ import Upload from "../components/upload";
 import ColumnsModal from "../components/columsModal";
 import SlopeTable from "../components/slopeTable";
 import SlopeGraph from "../components/slopeGraph";
-import { useEffect, useLayoutEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import DataGraphs from "../components/dataGraphs";
 import { fitLogistic, evalLogistic, getMaxSlope } from "../scripts/curveFit";
 

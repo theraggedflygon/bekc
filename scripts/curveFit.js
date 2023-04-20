@@ -99,3 +99,52 @@ export const fitLogistic = (xVals, yVals) => {
   }
   return { k: kGuess, L: LGuess, x0: x0Guess, D: DGuess };
 };
+
+export const fitLogisticRangeFixed = (xVals, yVals, minBound, maxBound) => {
+  let kStep = 1;
+  let x0Step = 1;
+  let kGuess = 0;
+  let x0Guess = 0;
+
+  let minSteps = { k: 0.0001, x0: 0.001 };
+  let threshold = -0.0001;
+
+  while (true) {
+    const ls0 = lsErrorCalc(
+      yVals,
+      evalLogistic(maxBound, kGuess, x0Guess, minBound, xVals)
+    );
+    const lsDeltas = new Array(9);
+    const lsCombos = new Array(9);
+    let i = 0;
+    for (let ki = kGuess - kStep, kIdx = 0; kIdx < 3; ki += kStep, kIdx++) {
+      for (
+        let x0i = x0Guess - x0Step, x0Idx = 0;
+        x0Idx < 3;
+        x0i += x0Step, x0Idx++
+      ) {
+        const lsTrial = lsErrorCalc(
+          yVals,
+          evalLogistic(minBound, ki, x0i, maxBound, xVals)
+        );
+        lsDeltas[i] = lsTrial - ls0;
+        lsCombos[i] = kIdx * 10 + x0Idx;
+        i++;
+      }
+    }
+    const minDelta = Math.min(...lsDeltas);
+    const minCombo = lsCombos[lsDeltas.indexOf(minDelta)];
+
+    kGuess += kStep * (Math.floor(minCombo / 10) - 1);
+    x0Guess += x0Step * (Math.floor(minCombo % 10) - 1);
+
+    if (minDelta > threshold) {
+      if (kStep === minSteps.k && x0Step === minSteps.x0) {
+        break;
+      }
+      if (kStep > minSteps.k) kStep /= 10;
+      if (x0Step > minSteps.x0) x0Step /= 10;
+    }
+  }
+  return { k: kGuess, L: maxBound, x0: x0Guess, D: minBound };
+};

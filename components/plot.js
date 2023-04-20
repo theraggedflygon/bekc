@@ -22,9 +22,11 @@ const Plot = ({
   setColors = [],
   showPoints = [],
   showLine = [],
+  useLogScale = false,
 }) => {
   const [data, setData] = useState({ labels: [], datasets: [] });
   const [options, setOptions] = useState({});
+
   useEffect(() => {
     const newData = {
       labels: xSeries,
@@ -61,9 +63,16 @@ const Plot = ({
         },
       },
     };
+
+    if (useLogScale) {
+      newOptions.scales.x = {
+        type: "logarithmic",
+      };
+    }
+
     setData(newData);
     setOptions(newOptions);
-  }, [datasets, colors, labels, xSeries, setColors]);
+  }, [datasets, colors, labels, xSeries]);
 
   return <Line data={data} options={options} />;
 };
