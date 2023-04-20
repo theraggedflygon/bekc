@@ -3,12 +3,12 @@ import Plot, { colors } from "./plot";
 import Slider from "./common/slider";
 
 const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
+  const [mainColors, setMainColors] = useState([]);
   const generateGraphCol = (nCols, colNumber) => {
     return (
       <div className="w-1/6 h-[12rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
           if (idx % nCols === colNumber) {
-            console.log(idx, colNumber, nCols);
             let dataset;
             let labels;
             const label = modalData.labels[idx];
@@ -59,6 +59,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
               xSeries={modalData.settings.useTime ? datasets[1] : datasets[0]}
               datasets={datasets.slice(3)}
               labels={modalData.labels}
+              setColors={mainColors}
             ></Plot>
           }
         </div>

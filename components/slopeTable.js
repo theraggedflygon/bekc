@@ -23,8 +23,10 @@ const SlopeTable = ({ slopes }) => {
               style={{ backgroundColor: colorStr }}
             >
               <td className="border border-black">{s.conc}</td>
-              <td className="border border-black">{s.velo}</td>
-              <td className="border border-black">{s.percentMax}</td>
+              <td className="border border-black">{s.velo.toFixed(3)}</td>
+              <td className="border border-black">
+                {(s.percentMax * 100).toFixed(3)}
+              </td>
             </tr>
           );
         })}
