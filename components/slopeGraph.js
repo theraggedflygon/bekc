@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Plot, { colors } from "./plot";
-import { fitLogistic, evalLogistic, getMaxSlope } from "../scripts/curveFit";
+import {
+  fitLogisticRangeFixed,
+  evalLogistic,
+  fitLogistic,
+} from "../scripts/curveFit";
 
 const SlopeGraph = ({ slopes }) => {
   const [graphSlopes, setGraphSlopes] = useState([]);
@@ -13,13 +17,9 @@ const SlopeGraph = ({ slopes }) => {
     const logXValues = newSlopes
       .map((s) => s.conc)
       .map((s) => Math.log(s) / Math.log(10));
-    const logFit = fitLogistic(
-      logXValues,
-      newSlopes.map((s) => s.percentMax * 100)
-    );
-    for (let i = 0; i < logXValues.length; i++) {
-      console.log(logXValues[i], newSlopes[i].percentMax * 100);
-    }
+
+    const yVals = newSlopes.map((s) => s.percentMax * 100);
+    const logFit = fitLogistic(logXValues, yVals, 0, 100);
     const fitVals = evalLogistic(
       logFit.L,
       logFit.k,
@@ -27,6 +27,7 @@ const SlopeGraph = ({ slopes }) => {
       logFit.D,
       logXValues
     );
+    console.log(logFit);
 
     setGraphSlopes(newSlopes);
     setFit(fitVals);
@@ -39,6 +40,7 @@ const SlopeGraph = ({ slopes }) => {
           xSeries={graphSlopes.map((s) => s.conc)}
           datasets={[graphSlopes.map((s) => s.percentMax * 100), fit]}
           labels={["Inhibited Activity By Concentrations", "Fit"]}
+          showLine={[false, true]}
           useLogScale={true}
         ></Plot>
       }

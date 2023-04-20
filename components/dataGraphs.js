@@ -6,7 +6,7 @@ const DataGraphs = ({ modalData, datasets, fits, slopes }) => {
   const [mainColors, setMainColors] = useState([]);
   const generateGraphCol = (nCols, colNumber) => {
     return (
-      <div className="w-1/6 h-[12rem]" key={`col-${colNumber}`}>
+      <div className="w-1/6 h-[24rem]" key={`col-${colNumber}`}>
         {datasets.slice(3).map((ds, idx) => {
           if (idx % nCols === colNumber) {
             let dataset;
